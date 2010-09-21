@@ -1,0 +1,13 @@
+{{$NEXT}}
+
+0.05      2010-07-28 13:52:52 America/Los_Angeles
+Changed the setup method to expect 0 CaptureArgs.
+Cleaned up some test case weirdness.
+
+0.04      2010-07-27 21:55:44 America/Los_Angeles
+Fixed call to process_files to include $self and $c.
+Added more prereqs that are required for testing.
+
+0.03      2010-07-27 14:34:59 America/Los_Angeles
+Fixed failing tests do to requiring Catalyst::Plugin::Static::Simple.
+Cleaned up some POD errors.
