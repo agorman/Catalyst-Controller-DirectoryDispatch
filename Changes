@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+1.0       2010-09-28 09:59:13 America/Los_Angeles
+Now that all of the tests have been passing I'm bumping to 1.0 and releasing to CPAN.
+
 0.05      2010-07-28 13:52:52 America/Los_Angeles
 Changed the setup method to expect 0 CaptureArgs.
 Cleaned up some test case weirdness.
