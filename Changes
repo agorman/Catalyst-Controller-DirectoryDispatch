@@ -1,4 +1,6 @@
 {{$NEXT}}
+Removing tab characters
+Fixing dist.ini so bugs go to github rather than RT
 
 1.0       2010-09-28 09:59:13 America/Los_Angeles
 Now that all of the tests have been passing I'm bumping to 1.0 and releasing to CPAN.
