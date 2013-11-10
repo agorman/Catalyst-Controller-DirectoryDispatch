@@ -20,18 +20,27 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Catalyst::Controller::DirectoryDispatch",
   "PREREQ_PM" => {
-    "Catalyst::Action::Serialize" => "0.83",
-    "Catalyst::Runtime" => "5.7010"
+    "Catalyst::Action::Serialize" => 0,
+    "Catalyst::Controller" => 0,
+    "JSON" => 0,
+    "Moose" => 0,
+    "Try::Tiny" => 0,
+    "namespace::autoclean" => 0
   },
   "TEST_REQUIRES" => {
+    "Catalyst" => 0,
+    "Catalyst::Runtime" => "5.80",
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
-    "JSON::Any" => 0,
     "Test::More" => 0,
-    "Test::WWW::Mechanize::Catalyst" => 0
+    "Test::WWW::Mechanize::Catalyst" => 0,
+    "base" => 0,
+    "lib" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
-  "VERSION" => "1.01",
+  "VERSION" => "1.02",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -39,14 +48,23 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
-  "Catalyst::Action::Serialize" => "0.83",
-  "Catalyst::Runtime" => "5.7010",
+  "Catalyst" => 0,
+  "Catalyst::Action::Serialize" => 0,
+  "Catalyst::Controller" => 0,
+  "Catalyst::Runtime" => "5.80",
   "File::Spec" => 0,
   "IO::Handle" => 0,
   "IPC::Open3" => 0,
-  "JSON::Any" => 0,
+  "JSON" => 0,
+  "Moose" => 0,
   "Test::More" => 0,
-  "Test::WWW::Mechanize::Catalyst" => 0
+  "Test::WWW::Mechanize::Catalyst" => 0,
+  "Try::Tiny" => 0,
+  "base" => 0,
+  "lib" => 0,
+  "namespace::autoclean" => 0,
+  "strict" => 0,
+  "warnings" => 0
 );
 
 

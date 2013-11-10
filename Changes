@@ -1,4 +1,8 @@
-{{$NEXT}}
+1.02      2013-11-10 12:25:39 America/Los_Angeles
+Fixing missing prereqs
+Changing from JSON::Any to JSON
+
+1.01      2013-11-10 12:22:05 America/Los_Angeles
 Removing tab characters
 Fixing dist.ini so bugs go to github rather than RT
 

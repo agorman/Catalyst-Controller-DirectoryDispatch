@@ -3,7 +3,7 @@ NAME
     built in url dispatching
 
 VERSION
-    version 1.01
+    version 1.02
 
 SYNOPSIS
         package MyApp::Controller::Browser::Example;

@@ -1,13 +1,13 @@
 package Catalyst::Controller::DirectoryDispatch;
 {
-  $Catalyst::Controller::DirectoryDispatch::VERSION = '1.01';
+  $Catalyst::Controller::DirectoryDispatch::VERSION = '1.02';
 }
 # ABSTRACT: Simple directory listing with built in url dispatching
 
 use Moose;
 BEGIN { extends 'Catalyst::Controller' }
 
-use JSON::Any;
+use JSON;
 use Try::Tiny;
 use namespace::autoclean;
 
@@ -64,7 +64,7 @@ sub list :Chained('setup') :PathPart('') :Args {
         $files = [ readdir $dir ];
         closedir $dir;
     } catch {
-        $c->stash->{response} = {"error" => "Failed to open directory '$full_path'", "success" => JSON::Any::false};
+        $c->stash->{response} = {"error" => "Failed to open directory '$full_path'", "success" => JSON::false};
         $c->detach('serialize');
     };
 
@@ -75,7 +75,7 @@ sub list :Chained('setup') :PathPart('') :Args {
     $files = $self->process_files($c, $files);
 
     $c->stash->{response}->{$self->data_root} = $files;
-    $c->stash->{response}->{success} = JSON::Any::true;
+    $c->stash->{response}->{success} = JSON::true;
 }
 
 
@@ -112,7 +112,7 @@ Catalyst::Controller::DirectoryDispatch - Simple directory listing with built in
 
 =head1 VERSION
 
-version 1.01
+version 1.02
 
 =head1 SYNOPSIS
 
