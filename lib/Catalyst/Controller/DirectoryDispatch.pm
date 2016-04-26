@@ -50,24 +50,24 @@ sub list :Chained('setup') :PathPart('') :Args {
     my $full_path = $self->root . $path;
 
     my $regexp = $self->filter;
-    my $files = [];
+    my @files = ();
 
     try {
         opendir (my $dir, $full_path) or die;
-        $files = [ readdir $dir ];
+        @files = readdir $dir;
         closedir $dir;
     } catch {
         $c->stash->{response} = {"error" => "Failed to open directory '$full_path'", "success" => JSON::false};
         $c->detach('serialize');
     };
 
-    $files = [ grep { !/$regexp/ } @$files ] if ($regexp);
+    @files = grep { !/$regexp/ } @files if ($regexp);
 
-    $files = [ map { "$path/$_" } @$files ] if ($self->full_paths);
+    @files = map { "$path/$_" } @files if ($self->full_paths);
 
-    $files = $self->process_files($c, $files);
+    my $files_ref = $self->process_files($c, \@files);
 
-    $c->stash->{response}->{$self->data_root} = $files;
+    $c->stash->{response}->{$self->data_root} = $files_ref;
     $c->stash->{response}->{success} = JSON::true;
 }
 
