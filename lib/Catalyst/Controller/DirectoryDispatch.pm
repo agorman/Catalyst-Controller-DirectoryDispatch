@@ -44,7 +44,6 @@ has 'data_root' => (
 
 sub setup :Chained('specify.in.subclass.config') :CaptureArgs(0) :PathPart('specify.in.subclass.config') {}
 
-
 sub list :Chained('setup') :PathPart('') :Args {
     my $self = shift;
     my $c = shift;
@@ -83,7 +82,7 @@ sub process_files {
 }
 
 
-sub end :Privete {
+sub end :Private {
     my ( $self, $c ) = @_;
 
     $c->res->status(200);
