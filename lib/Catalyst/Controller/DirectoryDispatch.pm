@@ -17,7 +17,6 @@ __PACKAGE__->config(
     }
 );
 
-
 has 'root' => (
     is      => 'ro',
     isa     => 'Str',
@@ -41,14 +40,12 @@ has 'data_root' => (
     default => 'data',
 );
 
-
 sub setup :Chained('specify.in.subclass.config') :CaptureArgs(0) :PathPart('specify.in.subclass.config') {}
 
 sub list :Chained('setup') :PathPart('') :Args {
-    my $self = shift;
-    my $c = shift;
+    my ( $self, $c, @dirpath ) = @_;
 
-    my $path = join '/', @_;
+    my $path = join '/', @dirpath;
     $path = "/$path" if ($path);
     my $full_path = $self->root . $path;
 
@@ -74,13 +71,11 @@ sub list :Chained('setup') :PathPart('') :Args {
     $c->stash->{response}->{success} = JSON::true;
 }
 
-
 sub process_files {
     my ( $self, $c, $files ) = @_;
 
     return $files;
 }
-
 
 sub end :Private {
     my ( $self, $c ) = @_;
@@ -89,9 +84,7 @@ sub end :Private {
     $c->forward('serialize');
 }
 
-
 sub serialize :ActionClass('Serialize') {}
-
 
 __PACKAGE__->meta->make_immutable;
 1;
