@@ -21,5 +21,5 @@ on 'test' => sub {
 };
 
 on 'configure' => sub {
-  requires "ExtUtils::MakeMaker" => "6.30";
+  requires "ExtUtils::MakeMaker" => "0";
 };

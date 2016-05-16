@@ -1,9 +1,6 @@
 package Catalyst::Controller::DirectoryDispatch;
-{
-  $Catalyst::Controller::DirectoryDispatch::VERSION = '1.02';
-}
 # ABSTRACT: Simple directory listing with built in url dispatching
-
+$Catalyst::Controller::DirectoryDispatch::VERSION = '1.03';
 use Moose;
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -19,7 +16,6 @@ __PACKAGE__->config(
         'application/json'                  => 'JSON',
     }
 );
-
 
 has 'root' => (
     is      => 'ro',
@@ -44,40 +40,42 @@ has 'data_root' => (
     default => 'data',
 );
 
-
 sub setup :Chained('specify.in.subclass.config') :CaptureArgs(0) :PathPart('specify.in.subclass.config') {}
 
-
 sub list :Chained('setup') :PathPart('') :Args {
-    my $self = shift;
-    my $c = shift;
+    my ( $self, $c, @dirpath ) = @_;
 
-    my $path = join '/', @_;
+    my $path = join '/', @dirpath;
     $path = "/$path" if ($path);
     my $full_path = $self->root . $path;
 
-    my $regexp = $self->filter;
-    my $files = [];
-
+    my @files = ();
     try {
         opendir (my $dir, $full_path) or die;
-        $files = [ readdir $dir ];
+        @files = readdir $dir;
         closedir $dir;
     } catch {
-        $c->stash->{response} = {"error" => "Failed to open directory '$full_path'", "success" => JSON::false};
+        $c->stash->{response} = {
+            "error"   => "Failed to open directory '$full_path'",
+            "success" => JSON::false,
+        };
         $c->detach('serialize');
     };
 
-    $files = [ grep { !/$regexp/ } @$files ] if ($regexp);
+    my $regexp = $self->filter;
+    @files = grep { !/$regexp/ } @files if ($regexp);
 
-    $files = [ map { "$path/$_" } @$files ] if ($self->full_paths);
+    @files = map { "$path/$_" } @files if ($self->full_paths);
 
-    $files = $self->process_files($c, $files);
+    my $files_ref = $self->process_files( $c, \@files );
 
-    $c->stash->{response}->{$self->data_root} = $files;
-    $c->stash->{response}->{success} = JSON::true;
+    $c->stash(
+        response => {
+            $self->data_root => $files_ref,
+            success          => JSON::true,
+        }
+    );
 }
-
 
 sub process_files {
     my ( $self, $c, $files ) = @_;
@@ -85,17 +83,14 @@ sub process_files {
     return $files;
 }
 
-
-sub end :Privete {
+sub end :Private {
     my ( $self, $c ) = @_;
 
     $c->res->status(200);
     $c->forward('serialize');
 }
 
-
 sub serialize :ActionClass('Serialize') {}
-
 
 __PACKAGE__->meta->make_immutable;
 1;
@@ -112,7 +107,7 @@ Catalyst::Controller::DirectoryDispatch - Simple directory listing with built in
 
 =head1 VERSION
 
-version 1.02
+version 1.03
 
 =head1 SYNOPSIS
 
